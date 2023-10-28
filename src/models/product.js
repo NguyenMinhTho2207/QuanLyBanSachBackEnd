@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         category_id: DataTypes.INTEGER,
         description: DataTypes.TEXT,
         price: DataTypes.DECIMAL,
-        quantity: DataTypes.INT,
+        quantity: DataTypes.INTEGER,
         image: DataTypes.STRING,
         rating: DataTypes.DECIMAL,
         deleted: DataTypes.BOOLEAN

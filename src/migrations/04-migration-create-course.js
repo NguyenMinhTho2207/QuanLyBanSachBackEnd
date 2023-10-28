@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Courses', {
-        course_id: {
+        id: {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
@@ -31,16 +31,16 @@ module.exports = {
             type: Sequelize.INTEGER,
             references: {
                 model: 'Users',
-                key: 'user_id',
+                key: 'id',
             },
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE', 
         },
-        created_at: {
+        createdAt: {
             allowNull: false,
             type: Sequelize.DATE
         },
-        updated_at: {
+        updatedAt: {
             allowNull: false,
             type: Sequelize.DATE
         },
