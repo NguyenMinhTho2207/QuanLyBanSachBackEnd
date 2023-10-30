@@ -1,6 +1,18 @@
 import db from "../models/index"
 import bcrypt from "bcrypt";
+import { generalAccessToken, generalRefreshToken } from './JwtService';
 const salt = bcrypt.genSaltSync(10);
+
+let hashUserPassword = (password) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            var hashPassword = await bcrypt.hashSync(password, salt);
+            resolve(hashPassword);
+        } catch (error) {
+            reject(e);
+        }
+    });
+}
 
 let createUser = (data) => {
     return new Promise(async (resolve, reject) => {
@@ -30,7 +42,7 @@ let createUser = (data) => {
             if (userData) {
                 resolve({
                     status: "OK",
-                    message: "SUCCESS",
+                    message: "Success",
                     data: userData
                 });
             }
@@ -64,11 +76,22 @@ let loginUser = (data) => {
                     message: "The password or user is incorrect",
                 });
             }
+
+            let access_token = await generalAccessToken({
+                id: checkUser.id,
+                is_admin: checkUser.is_admin
+            });
+
+            let refresh_token = await generalRefreshToken({
+                id: checkUser.id,
+                is_admin: checkUser.is_admin
+            });
         
             resolve({
                 status: "OK",
-                message: "SUCCESS",
-                data: checkUser
+                message: "Success",
+                access_token,
+                refresh_token
             });
         } catch (error) {
             reject(error);
@@ -76,18 +99,143 @@ let loginUser = (data) => {
     });
 }
 
-let hashUserPassword = (password) => {
+let updateUser = (userId, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            var hashPassword = await bcrypt.hashSync(password, salt);
-            resolve(hashPassword);
+            let checkUser = await db.User.findOne({
+                where: {
+                    id: userId
+                },
+                raw: true
+            });
+
+            if (checkUser) {
+                await db.User.update(
+                    {
+                        name: data.name,
+                        is_admin: data.is_admin
+                    }, 
+                    {
+                    where: {
+                        id: userId
+                    }
+                });
+
+                let updatedUser = await db.User.findOne({
+                    where: {
+                        id: userId
+                    },
+                    raw: true
+                })
+
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: updatedUser
+                });
+            }
+            else {
+                resolve({
+                    status: "OK",
+                    message: "The user is not defined",
+                });
+            }
+        
+            
         } catch (error) {
-            reject(e);
+            reject(error);
+        }
+    });
+}
+
+let deleteUser = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let checkUser = await db.User.findOne({
+                where: {
+                    id: userId
+                },
+                raw: true
+            });
+
+            if (checkUser) {
+                await db.User.destroy({
+                    where: {
+                        id: userId
+                    }
+                });1
+
+                resolve({
+                    status: "OK",
+                    message: "Delete user success",
+                });
+            }
+            else {
+                resolve({
+                    status: "OK",
+                    message: "The user is not defined",
+                });
+            }
+        
+            
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+let getAllUser = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let allUser = await db.User.findAll();
+
+            resolve({
+                status: "OK",
+                message: "Success",
+                data: allUser
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+let getDetailUser = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: {
+                    id: userId
+                },
+                raw: true
+            });
+
+            if (user) {
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: user
+                });
+            }
+            else {
+                resolve({
+                    status: "OK",
+                    message: "The user is not defined",
+                });
+            }
+        
+            
+        } catch (error) {
+            reject(error);
         }
     });
 }
 
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    updateUser,
+    deleteUser,
+    getAllUser,
+    getDetailUser
 }
