@@ -43,10 +43,6 @@ module.exports = {
         updatedAt: {
             allowNull: false,
             type: Sequelize.DATE
-        },
-        deleted: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: 1
         }
     });
   },

@@ -110,11 +110,11 @@ let updateUser = (userId, data) => {
             });
 
             if (checkUser) {
+                data.password = await hashUserPassword(data.password);
+                data.updatedAt = new Date();
+                
                 await db.User.update(
-                    {
-                        name: data.name,
-                        is_admin: data.is_admin
-                    }, 
+                    data, 
                     {
                     where: {
                         id: userId
@@ -139,9 +139,7 @@ let updateUser = (userId, data) => {
                     status: "OK",
                     message: "The user is not defined",
                 });
-            }
-        
-            
+            }   
         } catch (error) {
             reject(error);
         }

@@ -22,7 +22,7 @@ module.exports = {
             onDelete: 'CASCADE', 
         },
         description: {
-            type: Sequelize.STRING
+            type: Sequelize.TEXT
         },
         price: {
             type: Sequelize.DECIMAL
@@ -31,7 +31,7 @@ module.exports = {
             type: Sequelize.INTEGER
         },
         image: {
-            type: Sequelize.STRING
+            type: Sequelize.TEXT
         },
         rating: {
             type: Sequelize.DECIMAL
@@ -43,10 +43,6 @@ module.exports = {
         updatedAt: {
             allowNull: false,
             type: Sequelize.DATE
-        },
-        deleted: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: 1
         }
     });
   },

@@ -67,14 +67,10 @@ module.exports = {
         createdAt: {
             allowNull: false,
             type: Sequelize.DATE
-          },
+        },
         updatedAt: {
             allowNull: false,
             type: Sequelize.DATE
-        },
-        deleted: {
-            type: Sequelize.BOOLEAN,
-            defaultValue: 1
         }
     });
   },
