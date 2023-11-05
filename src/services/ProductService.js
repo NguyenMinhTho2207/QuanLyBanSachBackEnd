@@ -1,4 +1,5 @@
 import db from "../models/index"
+const { Op } = require('sequelize');
 
 let createProduct = (newProduct) => {
     return new Promise(async (resolve, reject) => {
@@ -116,15 +117,67 @@ let getDetailsProduct = (productId) => {
     });
 }
 
-let getAllProduct = () => {
+let getAllProduct = (limit = 8, page = 1, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let allProduct = await db.Product.findAll();
+            let totalProduct = await db.Product.count();
+            let offset = (page - 1) * limit;
+            console.log(limit);
+            console.log(page);
+            console.log(offset);
+            if (filter) {
+                let whereClause = {
+                    [filter[0]]: {
+                        [Op.like]: `%${filter[1]}%`
+                    }
+                };
+                console.log(whereClause);
+                let allProductFilter = await db.Product.findAll({
+                    where: whereClause,
+                    limit: limit,
+                    offset: offset,
+                    
+                });
+
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: allProductFilter,
+                    total: totalProduct,
+                    pageCurrent: page,
+                    totalPage: Math.ceil(totalProduct / limit)
+                });
+            }
+            
+            if (sort) {
+                let allProductSort = await db.Product.findAll({
+                    limit: limit,
+                    offset: offset,
+                    order: [[sort[0], sort[1] === 'asc' ? 'ASC' : 'DESC']]
+                });
+
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: allProductSort,
+                    total: totalProduct,
+                    pageCurrent: page,
+                    totalPage: Math.ceil(totalProduct / limit)
+                });
+            }
+
+            let allProduct = await db.Product.findAll({
+                limit: limit,
+                offset: offset
+            });
 
             resolve({
                 status: "OK",
                 message: "Success",
-                data: allProduct
+                data: allProduct,
+                total: totalProduct,
+                pageCurrent: page,
+                totalPage: Math.ceil(totalProduct / limit)
             });
         } catch (error) {
             reject(error);

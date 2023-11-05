@@ -27,8 +27,7 @@ module.exports = (sequelize, DataTypes) => {
         total_price: DataTypes.DECIMAL,
         is_paid: DataTypes.BOOLEAN,
         paid_at: DataTypes.DATE,
-        is_delivered: DataTypes.BOOLEAN,
-        deleted: DataTypes.BOOLEAN
+        is_delivered: DataTypes.BOOLEAN
     }, {
         sequelize,
         modelName: 'Order',

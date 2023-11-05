@@ -20,8 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         description: DataTypes.TEXT,
         student_count: DataTypes.INTEGER,
         teacher: DataTypes.STRING,
-        user_id: DataTypes.INTEGER,
-        deleted: DataTypes.BOOLEAN
+        user_id: DataTypes.INTEGER
     }, {
         sequelize,
         modelName: 'Course',

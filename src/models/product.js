@@ -20,8 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         price: DataTypes.DECIMAL,
         quantity: DataTypes.INTEGER,
         image: DataTypes.TEXT,
-        rating: DataTypes.DECIMAL,
-        deleted: DataTypes.BOOLEAN
+        rating: DataTypes.DECIMAL
     }, {
         sequelize,
         modelName: 'Product',

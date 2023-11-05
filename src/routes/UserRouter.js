@@ -1,6 +1,6 @@
 import express from "express";
 import UserController from "../controllers/UserController";
-import {authMiddleware, authUserMiddleware} from "../middleware/authMiddleware";
+import { authMiddleware, authUserMiddleware } from "../middleware/authMiddleware";
 const routes = express.Router();
 
 routes.post('/sign-up', UserController.createUser);

@@ -1,6 +1,6 @@
 import express from "express";
 import ProductController from "../controllers/ProductController";
-import {authMiddleware } from "../middleware/authMiddleware";
+import { authMiddleware } from "../middleware/authMiddleware";
 const routes = express.Router();
 
 routes.post('/create-product', ProductController.createProduct);
