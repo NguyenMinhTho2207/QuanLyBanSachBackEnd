@@ -122,16 +122,14 @@ let getAllProduct = (limit = 8, page = 1, sort, filter) => {
         try {
             let totalProduct = await db.Product.count();
             let offset = (page - 1) * limit;
-            console.log(limit);
-            console.log(page);
-            console.log(offset);
+
             if (filter) {
                 let whereClause = {
                     [filter[0]]: {
                         [Op.like]: `%${filter[1]}%`
                     }
                 };
-                console.log(whereClause);
+                
                 let allProductFilter = await db.Product.findAll({
                     where: whereClause,
                     limit: limit,

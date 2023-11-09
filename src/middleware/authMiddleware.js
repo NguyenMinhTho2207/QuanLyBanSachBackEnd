@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 const dotenv = require("dotenv");
 dotenv.config();
 
-const authMiddleware = (req, res, next) => {
+const authMiddleWare = (req, res, next) => {
     if (req.headers.token) {
         let token = req.headers.token.split(" ")[1];
         jwt.verify(token, process.env.ACCESS_TOKEN, function(err, user) {
@@ -13,9 +13,7 @@ const authMiddleware = (req, res, next) => {
                 });
             }
     
-            let { payload } = user;
-    
-            if (payload.is_admin) {
+            if (user.is_admin) {
                 next();
             }
             else {
@@ -35,7 +33,7 @@ const authMiddleware = (req, res, next) => {
     }
 }
 
-const authUserMiddleware = (req, res, next) => {
+const authUserMiddleWare = (req, res, next) => {
     if (req.headers.token) {
         let token = req.headers.token.split(" ")[1];
         let userId = req.params.id;
@@ -48,9 +46,7 @@ const authUserMiddleware = (req, res, next) => {
                 });
             }
     
-            let { payload } = user;
-    
-            if (payload.is_admin || payload.id === userId) {
+            if (user.is_admin || user.id === userId) {
                 next();
             }
             else {
@@ -71,6 +67,6 @@ const authUserMiddleware = (req, res, next) => {
 }
 
 module.exports = {
-    authMiddleware,
-    authUserMiddleware
+    authMiddleWare,
+    authUserMiddleWare
 }

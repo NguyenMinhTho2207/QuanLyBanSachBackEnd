@@ -25,7 +25,7 @@ let createUser = (data) => {
 
             if (checkUser !== null) {
                 resolve({
-                    status: "OK",
+                    status: "ERROR",
                     message: "The email is already",
                 });
             }
@@ -72,7 +72,7 @@ let loginUser = (data) => {
 
             if (!comparePassword) {
                 resolve({
-                    status: "OK",
+                    status: "ERROR",
                     message: "The password or user is incorrect",
                 });
             }

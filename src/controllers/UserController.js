@@ -3,11 +3,11 @@ import JwtService from '../services/JwtService';
 
 let createUser = async (req, res) => {
     try {
-        let { email, name, phone_number, password, confirmPassword } = req.body;
+        let { email, password, confirmPassword } = req.body;
         let regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
         let isCheckEmail = regex.test(email);
 
-        if (!email || !name || !phone_number || !password || !confirmPassword) {
+        if (!email || !password || !confirmPassword) {
             return res.status(200).json({
                 status: "ERROR",
                 message: "The input is required"
@@ -22,7 +22,7 @@ let createUser = async (req, res) => {
         else if (password !== confirmPassword) {
             return res.status(200).json({
                 status: "ERROR",
-                message: "The password is equal confirmPassword"
+                message: "Password and Confirm Password does not match"
             });
         }
 
@@ -38,11 +38,11 @@ let createUser = async (req, res) => {
 
 let loginUser = async (req, res) => {
     try {
-        let { email, name, phone_number, password, confirmPassword } = req.body;
+        let { email, password } = req.body;
         let regex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
         let isCheckEmail = regex.test(email);
 
-        if (!email || !name || !phone_number || !password || !confirmPassword) {
+        if (!email || !password) {
             return res.status(200).json({
                 status: "ERROR",
                 message: "The input is required"
@@ -54,15 +54,14 @@ let loginUser = async (req, res) => {
                 message: "The input is email"
             });
         }
-        else if (password !== confirmPassword) {
-            return res.status(200).json({
-                status: "ERROR",
-                message: "The password is equal confirmPassword"
-            });
-        }
 
         let response = await UserService.loginUser(req.body);
-        return res.status(200).json(response);
+        let { refresh_token, ...newResponse } = response; // không trả access_token
+        res.cookie('refresh_token', refresh_token, {
+            httpOnly: true, // chỉ lấy dc refresh_token thông qua http (ko lấy được qua js)
+            Secure: true, // bảo mật phía client
+        });
+        return res.status(200).json(newResponse);
     } catch (error) {
         return res.status(404).json({
             message: error
@@ -141,7 +140,7 @@ let getDetailUser = async (req, res) => {
 
 let refreshToken = async (req, res) => {
     try {
-        let token = req.headers.token.split(' ')[1];
+        let token = req.cookies.refresh_token;
         if (!token) {
             return res.status(200).json({
                 status: "ERROR",
