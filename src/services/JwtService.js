@@ -28,10 +28,10 @@ export const refreshTokenJwtService = async (token) => {
                         message: "The authentication"
                     });
                 }
-                let { payload } = user
+
                 let access_token = await generalAccessToken({
-                    id: payload.id,
-                    is_admin: payload.is_admin
+                    id: user.id,
+                    is_admin: user.is_admin
                 });
 
                 resolve({

@@ -59,7 +59,8 @@ let loginUser = async (req, res) => {
         let { refresh_token, ...newResponse } = response; // không trả access_token
         res.cookie('refresh_token', refresh_token, {
             httpOnly: true, // chỉ lấy dc refresh_token thông qua http (ko lấy được qua js)
-            Secure: true, // bảo mật phía client
+            secure: false, // bảo mật phía client
+            sameSite: 'strict'
         });
         return res.status(200).json(newResponse);
     } catch (error) {
@@ -157,6 +158,21 @@ let refreshToken = async (req, res) => {
     }
 }
 
+let logoutUser = async (req, res) => {
+    try {
+        res.clearCookie('refresh_token');
+        return res.status(200).json({
+            status: "OK",
+            message: 'Logout seccessfully'
+        });
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
+
 module.exports = {
     createUser,
     loginUser,
@@ -164,5 +180,6 @@ module.exports = {
     deleteUser,
     getAllUser,
     getDetailUser,
-    refreshToken
+    refreshToken,
+    logoutUser
 }

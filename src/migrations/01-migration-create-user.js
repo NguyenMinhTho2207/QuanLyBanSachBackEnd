@@ -15,6 +15,12 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      address: {
+        type: Sequelize.STRING
+      },
+      avatar: {
+        type: Sequelize.STRING
+      },
       phone_number: {
         type: Sequelize.STRING
       },
@@ -23,12 +29,6 @@ module.exports = {
       },
       is_admin: {
         type: Sequelize.BOOLEAN
-      },
-      access_token: {
-        type: Sequelize.TEXT
-      },
-      refresh_token: {
-        type: Sequelize.TEXT
       },
       createdAt: {
         allowNull: false,

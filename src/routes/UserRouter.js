@@ -5,6 +5,7 @@ const routes = express.Router();
 
 routes.post('/sign-up', UserController.createUser);
 routes.post('/sign-in', UserController.loginUser);
+routes.post('/log-out', UserController.logoutUser);
 routes.put('/update-user/:id', UserController.updateUser);
 routes.delete('/delete-user/:id', authMiddleWare, UserController.deleteUser);
 routes.get('/get-all-user', authMiddleWare, UserController.getAllUser);
