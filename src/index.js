@@ -12,6 +12,8 @@ let app = express();
 
 // Config app
 app.use(cors());
+app.use(express.json({limit: '50mb'})); //support save file avatar
+app.use(express.urlencoded({limit: '50mb'})); //support save file avatar
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser());

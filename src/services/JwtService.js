@@ -30,8 +30,8 @@ export const refreshTokenJwtService = async (token) => {
                 }
 
                 let access_token = await generalAccessToken({
-                    id: user.id,
-                    is_admin: user.is_admin
+                    id: user?.id,
+                    is_admin: user?.is_admin
                 });
 
                 resolve({

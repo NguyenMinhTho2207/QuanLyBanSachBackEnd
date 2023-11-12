@@ -63,7 +63,7 @@ let loginUser = (data) => {
 
             if (checkUser === null) {
                 resolve({
-                    status: "OK",
+                    status: "ERROR",
                     message: "The user is not defined",
                 });
             }
@@ -102,6 +102,7 @@ let loginUser = (data) => {
 let updateUser = (userId, data) => {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log(data)
             let checkUser = await db.User.findOne({
                 where: {
                     id: userId
@@ -110,7 +111,10 @@ let updateUser = (userId, data) => {
             });
 
             if (checkUser) {
-                data.password = await hashUserPassword(data.password);
+                if (data.password) {
+                    data.password = await hashUserPassword(data.password);
+                }
+
                 data.updatedAt = new Date();
                 
                 await db.User.update(
