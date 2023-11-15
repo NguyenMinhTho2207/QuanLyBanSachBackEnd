@@ -45,8 +45,8 @@ const authUserMiddleWare = (req, res, next) => {
                     message: "The authentication",
                 });
             }
-    
-            if (user.is_admin || user.id === userId) {
+
+            if (user || user.id === userId) {
                 next();
             }
             else {

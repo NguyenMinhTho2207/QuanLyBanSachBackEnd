@@ -36,7 +36,7 @@ let createUser = (data) => {
                 name: data.name,
                 phone_number: data.phone_number,
                 password: hashPasswordFromBcrypt,
-                is_admin: data.is_admin
+                is_admin: 0
             });
 
             if (userData) {

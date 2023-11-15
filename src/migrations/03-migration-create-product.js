@@ -36,6 +36,12 @@ module.exports = {
         rating: {
             type: Sequelize.DECIMAL
         },
+        discount: {
+            type: Sequelize.DECIMAL
+        },
+        sold_quantity: {
+            type: Sequelize.INTEGER
+        },
         createdAt: {
             allowNull: false,
             type: Sequelize.DATE
