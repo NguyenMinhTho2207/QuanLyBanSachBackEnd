@@ -34,8 +34,15 @@ const authMiddleWare = (req, res, next) => {
 }
 
 const authUserMiddleWare = (req, res, next) => {
-    if (req.headers.token) {
-        let token = req.headers.token.split(" ")[1];
+    if (req.headers.authorization || req.headers.token) {
+        let token = "";
+        if (req.headers.authorization) {
+            token = req.headers.authorization.split(" ")[1];
+        }
+        else {
+            token = req.headers.token.split(" ")[1];
+        }
+
         let userId = req.params.id;
         
         jwt.verify(token, process.env.ACCESS_TOKEN, function(err, user) {

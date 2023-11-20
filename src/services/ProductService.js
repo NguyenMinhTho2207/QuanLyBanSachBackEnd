@@ -17,14 +17,26 @@ let createProduct = (newProduct) => {
                 });
             }
 
+            let quantity = parseInt(newProduct.quantity, 10);
+            let price = parseFloat(newProduct.price);
+            let rating = parseFloat(newProduct.rating);
+            let discount = parseFloat(newProduct.discount);
+
+            console.log("quantity: ", quantity)
+            console.log("price: ", price)
+            console.log("rating: ", rating)
+            console.log("discount: ", discount)
+            
             let product = await db.Product.create({
                 product_name: newProduct.product_name,
                 category_id: newProduct.category_id,
+                category_name: newProduct.category_name,
                 description: newProduct.description,
-                price: newProduct.price,
-                quantity: newProduct.quantity,
+                price: isNaN(price) ? 0 : price, 
+                quantity: isNaN(quantity) ? 0 : quantity,
                 image: newProduct.image,
-                rating: newProduct.rating
+                rating: isNaN(rating) ? 0 : rating,
+                discount: isNaN(discount) ? 0 : discount,
             });
 
             if (product) {

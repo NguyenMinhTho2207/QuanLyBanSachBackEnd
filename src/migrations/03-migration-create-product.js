@@ -21,6 +21,9 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE', 
         },
+        category_name: {
+            type: Sequelize.STRING
+        },
         description: {
             type: Sequelize.TEXT
         },
