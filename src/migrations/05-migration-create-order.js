@@ -28,7 +28,7 @@ module.exports = {
             onDelete: 'CASCADE', 
         },
         items_price: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.DECIMAL(10,2)
         },
         quantity: {
             type: Sequelize.INTEGER
@@ -46,13 +46,13 @@ module.exports = {
             type: Sequelize.STRING
         },
         shipping_price: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.DECIMAL(10,2)
         },
         tax_price: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.DECIMAL(10,2)
         },
         total_price: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.DECIMAL(10,2)
         },
         is_paid: {
             type: Sequelize.BOOLEAN

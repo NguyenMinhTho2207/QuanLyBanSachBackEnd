@@ -21,11 +21,6 @@ let createProduct = (newProduct) => {
             let price = parseFloat(newProduct.price);
             let rating = parseFloat(newProduct.rating);
             let discount = parseFloat(newProduct.discount);
-
-            console.log("quantity: ", quantity)
-            console.log("price: ", price)
-            console.log("rating: ", rating)
-            console.log("discount: ", discount)
             
             let product = await db.Product.create({
                 product_name: newProduct.product_name,

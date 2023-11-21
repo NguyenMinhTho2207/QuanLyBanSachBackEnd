@@ -28,7 +28,7 @@ module.exports = {
             type: Sequelize.TEXT
         },
         price: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.DECIMAL(10,2)
         },
         quantity: {
             type: Sequelize.INTEGER
@@ -37,10 +37,10 @@ module.exports = {
             type: Sequelize.TEXT
         },
         rating: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.DECIMAL(10,2)
         },
         discount: {
-            type: Sequelize.DECIMAL
+            type: Sequelize.DECIMAL(10,2)
         },
         sold_quantity: {
             type: Sequelize.INTEGER
