@@ -7,6 +7,6 @@ routes.post('/create-product', ProductController.createProduct);
 routes.put('/update-product/:id', authMiddleWare, ProductController.updateProduct);
 routes.get('/get-details-product/:id', ProductController.getDetailsProduct);
 routes.get('/get-all-product', ProductController.getAllProduct);
-routes.delete('/delete-product/:id', ProductController.deleteProduct);
+routes.delete('/delete-product/:id', authMiddleWare, ProductController.deleteProduct);
 
 module.exports = routes;
