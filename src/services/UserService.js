@@ -102,7 +102,6 @@ let loginUser = (data) => {
 let updateUser = (userId, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log(data)
             let checkUser = await db.User.findOne({
                 where: {
                     id: userId
