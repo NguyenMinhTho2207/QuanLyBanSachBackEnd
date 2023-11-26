@@ -92,11 +92,31 @@ let deleteProduct = async (req, res) => {
     }
 }
 
+let deleteMultipleProducts = async (req, res) => {
+    try {
+        let productIds = req.body;
+        if (!productIds) {
+            return res.status(200).json({
+                status: "ERROR",
+                message: "The productId is require"
+            });
+        }
+
+        let response = await ProductService.deleteMultipleProducts(productIds);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
 
 module.exports = {
     createProduct,
     updateProduct,
     getDetailsProduct,
     getAllProduct,
-    deleteProduct
+    deleteProduct,
+    deleteMultipleProducts
 }

@@ -90,11 +90,31 @@ let deleteCourse = async (req, res) => {
     }
 }
 
+let deleteMultipleCourses = async (req, res) => {
+    try {
+        let courseIds = req.body;
+        if (!courseIds) {
+            return res.status(200).json({
+                status: "ERROR",
+                message: "The courseIds is require"
+            });
+        }
+
+        let response = await CourseService.deleteMultipleCourses(courseIds);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
 
 module.exports = {
     createCourse,
     updateCourse,
     getDetailsCourse,
     getAllCourse,
-    deleteCourse
+    deleteCourse,
+    deleteMultipleCourses
 }

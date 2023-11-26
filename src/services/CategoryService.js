@@ -162,10 +162,52 @@ let deleteCategory = (categoryId) => {
     });
 }
 
+let deleteMultipleCategories = (categoryIds) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const results = [];
+
+            // Duyệt qua từng categoryId trong mảng
+            for (const categoryId of categoryIds) {
+                let checkCategory = await db.Category.findOne({
+                    where: {
+                        id: categoryId
+                    },
+                    raw: true
+                });
+
+                if (checkCategory) {
+                    // Xóa danh mục với categoryId
+                    await db.Category.destroy({
+                        where: {
+                            id: categoryId
+                        }
+                    });
+
+                    results.push({
+                        status: "OK",
+                        message: `Delete category with ID ${categoryId} success`,
+                    });
+                } else {
+                    results.push({
+                        status: "OK",
+                        message: `Category with ID ${categoryId} is not defined`,
+                    });
+                }
+            }
+
+            resolve(results);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 module.exports = {
     createCategory,
     updateCategory,
     getDetailsCategory,
     getAllCategory,
-    deleteCategory
+    deleteCategory,
+    deleteMultipleCategories
 }

@@ -109,6 +109,25 @@ let deleteUser = async (req, res) => {
     }
 }
 
+let deleteMultipleUsers = async (req, res) => {
+    try {
+        let userIds = req.body;
+        if (!userIds) {
+            return res.status(200).json({
+                status: "ERROR",
+                message: "The userIds is require"
+            });
+        }
+
+        let response = await UserService.deleteMultipleUsers(userIds);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
 let getAllUser = async (req, res) => {
     try {
         let response = await UserService.getAllUser();
@@ -181,5 +200,6 @@ module.exports = {
     getAllUser,
     getDetailUser,
     refreshToken,
-    logoutUser
+    logoutUser,
+    deleteMultipleUsers
 }

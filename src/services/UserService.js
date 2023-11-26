@@ -185,6 +185,47 @@ let deleteUser = (userId) => {
     });
 }
 
+let deleteMultipleUsers = (userIds) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const results = [];
+
+            // Duyệt qua từng userId trong mảng
+            for (const userId of userIds) {
+                let checkUser = await db.User.findOne({
+                    where: {
+                        id: userId
+                    },
+                    raw: true
+                });
+
+                if (checkUser) {
+                    // Xóa người dùng với userId
+                    await db.User.destroy({
+                        where: {
+                            id: userId
+                        }
+                    });
+
+                    results.push({
+                        status: "OK",
+                        message: `Delete user with ID ${userId} success`,
+                    });
+                } else {
+                    results.push({
+                        status: "OK",
+                        message: `User with ID ${userId} is not defined`,
+                    });
+                }
+            }
+
+            resolve(results);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 let getAllUser = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -238,5 +279,6 @@ module.exports = {
     updateUser,
     deleteUser,
     getAllUser,
-    getDetailUser
+    getDetailUser,
+    deleteMultipleUsers
 }

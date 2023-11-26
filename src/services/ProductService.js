@@ -226,10 +226,52 @@ let deleteProduct = (productId) => {
     });
 }
 
+let deleteMultipleProducts = (productIds) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const results = [];
+
+            // Duyệt qua từng productId trong mảng
+            for (const productId of productIds) {
+                let checkProduct = await db.Product.findOne({
+                    where: {
+                        id: productId
+                    },
+                    raw: true
+                });
+
+                if (checkProduct) {
+                    // Xóa sản phẩm với productId
+                    await db.Product.destroy({
+                        where: {
+                            id: productId
+                        }
+                    });
+
+                    results.push({
+                        status: "OK",
+                        message: `Delete product with ID ${productId} success`,
+                    });
+                } else {
+                    results.push({
+                        status: "OK",
+                        message: `Product with ID ${productId} is not defined`,
+                    });
+                }
+            }
+
+            resolve(results);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 module.exports = {
     createProduct,
     updateProduct,
     getDetailsProduct,
     getAllProduct,
-    deleteProduct
+    deleteProduct,
+    deleteMultipleProducts
 }

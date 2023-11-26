@@ -8,5 +8,6 @@ routes.put('/update-category/:id', authMiddleWare, CategoryController.updateCate
 routes.get('/get-details-category/:id', CategoryController.getDetailsCategory);
 routes.get('/get-all-category', CategoryController.getAllCategory);
 routes.delete('/delete-category/:id', CategoryController.deleteCategory);
+routes.delete('/delete-multiple-categories', authMiddleWare, CategoryController.deleteMultipleCategories);
 
 module.exports = routes;

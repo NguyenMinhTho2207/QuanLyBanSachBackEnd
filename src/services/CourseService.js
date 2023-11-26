@@ -162,10 +162,52 @@ let deleteCourse = (courseId) => {
     });
 }
 
+let deleteMultipleCourses = (courseIds) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const results = [];
+
+            // Duyệt qua từng courseId trong mảng
+            for (const courseId of courseIds) {
+                let checkCourse = await db.Course.findOne({
+                    where: {
+                        id: courseId
+                    },
+                    raw: true
+                });
+
+                if (checkCourse) {
+                    // Xóa khóa học với courseId
+                    await db.Course.destroy({
+                        where: {
+                            id: courseId
+                        }
+                    });
+
+                    results.push({
+                        status: "OK",
+                        message: `Delete course with ID ${courseId} success`,
+                    });
+                } else {
+                    results.push({
+                        status: "OK",
+                        message: `Course with ID ${courseId} is not defined`,
+                    });
+                }
+            }
+
+            resolve(results);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 module.exports = {
     createCourse,
     updateCourse,
     getDetailsCourse,
     getAllCourse,
-    deleteCourse
+    deleteCourse,
+    deleteMultipleCourses
 }

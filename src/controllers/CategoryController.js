@@ -90,11 +90,31 @@ let deleteCategory = async (req, res) => {
     }
 }
 
+let deleteMultipleCategories = async (req, res) => {
+    try {
+        let categoryIds = req.body;
+        if (!categoryIds) {
+            return res.status(200).json({
+                status: "ERROR",
+                message: "The categoryIds is require"
+            });
+        }
+
+        let response = await CategoryService.deleteMultipleCategories(categoryIds);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
 
 module.exports = {
     createCategory,
     updateCategory,
     getDetailsCategory,
     getAllCategory,
-    deleteCategory
+    deleteCategory,
+    deleteMultipleCategories
 }
