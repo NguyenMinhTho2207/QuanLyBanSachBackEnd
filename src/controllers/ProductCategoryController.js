@@ -1,17 +1,17 @@
-import CategoryService from '../services/CategoryService';
+import ProductCategoryService from '../services/ProductCategoryService';
 
-let createCategory = async (req, res) => {
+let createProductCategory = async (req, res) => {
     try {
-        let { category_name } = req.body;
+        let { product_category_name } = req.body;
 
-        if (!category_name) {
+        if (!product_category_name) {
             return res.status(200).json({
                 status: "ERROR",
                 message: "The input is required"
             });
         }
         
-        let response = await CategoryService.createCategory(req.body);
+        let response = await ProductCategoryService.createProductCategory(req.body);
         return res.status(200).json(response);
 
     } catch (error) {
@@ -21,7 +21,7 @@ let createCategory = async (req, res) => {
     }
 }
 
-let updateCategory = async (req, res) => {
+let updateProductCategory = async (req, res) => {
     try {
         let categoryId = req.params.id;
         let data = req.body;
@@ -32,7 +32,7 @@ let updateCategory = async (req, res) => {
             });
         }
 
-        let response = await CategoryService.updateCategory(categoryId, data);
+        let response = await ProductCategoryService.updateProductCategory(categoryId, data);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
@@ -41,7 +41,7 @@ let updateCategory = async (req, res) => {
     }
 }
 
-let getDetailsCategory = async (req, res) => {
+let getDetailsProductCategory = async (req, res) => {
     try {
         let categoryId = req.params.id;
         if (!categoryId) {
@@ -51,7 +51,7 @@ let getDetailsCategory = async (req, res) => {
             });
         }
 
-        let response = await CategoryService.getDetailsCategory(categoryId);
+        let response = await ProductCategoryService.getDetailsProductCategory(categoryId);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
@@ -60,9 +60,9 @@ let getDetailsCategory = async (req, res) => {
     }
 }
 
-let getAllCategory = async (req, res) => {
+let getAllProductCategory = async (req, res) => {
     try {
-        let response = await CategoryService.getAllCategory();
+        let response = await ProductCategoryService.getAllProductCategory();
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
@@ -71,7 +71,7 @@ let getAllCategory = async (req, res) => {
     }
 }
 
-let deleteCategory = async (req, res) => {
+let deleteProductCategory = async (req, res) => {
     try {
         let categoryId = req.params.id;
         if (!categoryId) {
@@ -81,7 +81,7 @@ let deleteCategory = async (req, res) => {
             });
         }
 
-        let response = await CategoryService.deleteCategory(categoryId);
+        let response = await ProductCategoryService.deleteProductCategory(categoryId);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
@@ -90,7 +90,7 @@ let deleteCategory = async (req, res) => {
     }
 }
 
-let deleteMultipleCategories = async (req, res) => {
+let deleteMultipleProductCategories = async (req, res) => {
     try {
         let categoryIds = req.body;
         if (!categoryIds) {
@@ -100,7 +100,7 @@ let deleteMultipleCategories = async (req, res) => {
             });
         }
 
-        let response = await CategoryService.deleteMultipleCategories(categoryIds);
+        let response = await ProductCategoryService.deleteMultipleProductCategories(categoryIds);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
@@ -111,10 +111,10 @@ let deleteMultipleCategories = async (req, res) => {
 
 
 module.exports = {
-    createCategory,
-    updateCategory,
-    getDetailsCategory,
-    getAllCategory,
-    deleteCategory,
-    deleteMultipleCategories
+    createProductCategory,
+    updateProductCategory,
+    getDetailsProductCategory,
+    getAllProductCategory,
+    deleteProductCategory,
+    deleteMultipleProductCategories
 }

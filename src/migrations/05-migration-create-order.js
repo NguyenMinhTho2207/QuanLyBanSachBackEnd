@@ -18,23 +18,8 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE', 
         },
-        product_id: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'Products',
-                key: 'id',
-            },
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE', 
-        },
-        items_price: {
+        total_amount: {
             type: Sequelize.DECIMAL(10,2)
-        },
-        quantity: {
-            type: Sequelize.INTEGER
-        },
-        image: {
-            type: Sequelize.STRING
         },
         note: {
             type: Sequelize.TEXT

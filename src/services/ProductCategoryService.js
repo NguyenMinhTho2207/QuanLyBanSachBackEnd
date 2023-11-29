@@ -1,30 +1,30 @@
 import db from "../models/index"
 
-let createCategory = (newCategory) => {
+let createProductCategory = (newProductCategory) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let checkCategory = await db.Category.findOne({
+            let checkProductCategory = await db.ProductCategory.findOne({
                 where: {
-                    category_name: newCategory.category_name
+                    product_category_name: newProductCategory.product_category_name
                 }
             });
 
-            if (checkCategory !== null) {
+            if (checkProductCategory !== null) {
                 resolve({
                     status: "OK",
                     message: "The name of category is already",
                 });
             }
 
-            let category = await db.Category.create({
-                category_name: newCategory.category_name
+            let productCategory = await db.ProductCategory.create({
+                product_category_name: newProductCategory.product_category_name
             });
 
-            if (category) {
+            if (productCategory) {
                 resolve({
                     status: "OK",
                     message: "Success",
-                    data: category
+                    data: productCategory
                 });
             }
         } catch (error) {
@@ -33,30 +33,30 @@ let createCategory = (newCategory) => {
     });
 }
 
-let updateCategory = (categoryId, data) => {
+let updateProductCategory = (productCategoryId, data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let checkCategory = await db.Category.findOne({
+            let checkProductCategory = await db.ProductCategory.findOne({
                 where: {
-                    id: categoryId
+                    id: productCategoryId
                 },
                 raw: true
             });
 
-            if (checkCategory) {
+            if (checkProductCategory) {
                 data.updatedAt = new Date();
 
-                await db.Category.update(
+                await db.ProductCategory.update(
                     data, 
                     {
                     where: {
-                        id: categoryId
+                        id: productCategoryId
                     }
                 });
 
-                let updatedCategory = await db.Category.findOne({
+                let updatedProductCategory = await db.ProductCategory.findOne({
                     where: {
-                        id: categoryId
+                        id: productCategoryId
                     },
                     raw: true
                 })
@@ -64,13 +64,13 @@ let updateCategory = (categoryId, data) => {
                 resolve({
                     status: "OK",
                     message: "Success",
-                    data: updatedCategory
+                    data: updatedProductCategory
                 });
             }
             else {
                 resolve({
                     status: "OK",
-                    message: "The category is not defined",
+                    message: "The product category is not defined",
                 });
             }
         } catch (error) {
@@ -79,12 +79,12 @@ let updateCategory = (categoryId, data) => {
     });
 }
 
-let getDetailsCategory = (categoryId) => {
+let getDetailsProductCategory = (productCategoryId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let category = await db.Category.findOne({
+            let category = await db.ProductCategory.findOne({
                 where: {
-                    id: categoryId
+                    id: productCategoryId
                 },
                 raw: true
             });
@@ -99,7 +99,7 @@ let getDetailsCategory = (categoryId) => {
             else {
                 resolve({
                     status: "OK",
-                    message: "The category is not defined",
+                    message: "The product category is not defined",
                 });
             }
         
@@ -110,15 +110,15 @@ let getDetailsCategory = (categoryId) => {
     });
 }
 
-let getAllCategory = () => {
+let getAllProductCategory = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            let allCategory = await db.Category.findAll();
+            let allProductCategory = await db.ProductCategory.findAll();
 
             resolve({
                 status: "OK",
                 message: "Success",
-                data: allCategory
+                data: allProductCategory
             });
         } catch (error) {
             reject(error);
@@ -126,32 +126,32 @@ let getAllCategory = () => {
     });
 }
 
-let deleteCategory = (categoryId) => {
+let deleteProductCategory = (productCategoryId) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let checkCategory = await db.Category.findOne({
+            let checkProductCategory = await db.ProductCategory.findOne({
                 where: {
-                    id: categoryId
+                    id: productCategoryId
                 },
                 raw: true
             });
 
-            if (checkCategory) {
-                await db.Category.destroy({
+            if (checkProductCategory) {
+                await db.ProductCategory.destroy({
                     where: {
-                        id: categoryId
+                        id: productCategoryId
                     }
                 });1
 
                 resolve({
                     status: "OK",
-                    message: "Delete category success",
+                    message: "Delete product category success",
                 });
             }
             else {
                 resolve({
                     status: "OK",
-                    message: "The category is not defined",
+                    message: "The product category is not defined",
                 });
             }
         
@@ -162,36 +162,36 @@ let deleteCategory = (categoryId) => {
     });
 }
 
-let deleteMultipleCategories = (categoryIds) => {
+let deleteMultipleProductCategories = (productCategoryIds) => {
     return new Promise(async (resolve, reject) => {
         try {
             const results = [];
 
-            // Duyệt qua từng categoryId trong mảng
-            for (const categoryId of categoryIds) {
-                let checkCategory = await db.Category.findOne({
+            // Duyệt qua từng productCategoryId trong mảng
+            for (const productCategoryId of productCategoryIds) {
+                let checkProductCategory = await db.ProductCategory.findOne({
                     where: {
-                        id: categoryId
+                        id: productCategoryId
                     },
                     raw: true
                 });
 
-                if (checkCategory) {
-                    // Xóa danh mục với categoryId
-                    await db.Category.destroy({
+                if (checkProductCategory) {
+                    // Xóa danh mục với productCategoryId
+                    await db.ProductCategory.destroy({
                         where: {
-                            id: categoryId
+                            id: productCategoryId
                         }
                     });
 
                     results.push({
                         status: "OK",
-                        message: `Delete category with ID ${categoryId} success`,
+                        message: `Delete product category with ID ${productCategoryId} success`,
                     });
                 } else {
                     results.push({
                         status: "OK",
-                        message: `Category with ID ${categoryId} is not defined`,
+                        message: `Product category with ID ${productCategoryId} is not defined`,
                     });
                 }
             }
@@ -204,10 +204,10 @@ let deleteMultipleCategories = (categoryIds) => {
 }
 
 module.exports = {
-    createCategory,
-    updateCategory,
-    getDetailsCategory,
-    getAllCategory,
-    deleteCategory,
-    deleteMultipleCategories
+    createProductCategory,
+    updateProductCategory,
+    getDetailsProductCategory,
+    getAllProductCategory,
+    deleteProductCategory,
+    deleteMultipleProductCategories
 }

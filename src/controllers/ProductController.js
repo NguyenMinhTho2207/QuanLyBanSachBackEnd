@@ -2,9 +2,9 @@ import ProductService from '../services/ProductService';
 
 let createProduct = async (req, res) => {
     try {
-        let { product_name, category_id, category_name, description, price, quantity, image, rating, discount } = req.body;
+        let { product_name, product_category_id, product_category_name, description, price, quantity, image, rating, discount } = req.body;
 
-        if (!product_name || !category_id || !category_name || !description || !price || !quantity || !image || !rating || !discount) {
+        if (!product_name || !product_category_id || !product_category_name || !description || !price || !quantity || !image || !rating || !discount) {
             return res.status(200).json({
                 status: "ERROR",
                 message: "The input is required"
