@@ -18,8 +18,11 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE', 
         },
-        total_amount: {
-            type: Sequelize.DECIMAL(10,2)
+        name: {
+            type: Sequelize.STRING
+        },
+        phone_number: {
+            type: Sequelize.STRING
         },
         note: {
             type: Sequelize.TEXT
@@ -33,9 +36,6 @@ module.exports = {
         shipping_price: {
             type: Sequelize.DECIMAL(10,2)
         },
-        tax_price: {
-            type: Sequelize.DECIMAL(10,2)
-        },
         total_price: {
             type: Sequelize.DECIMAL(10,2)
         },
@@ -43,11 +43,13 @@ module.exports = {
             type: Sequelize.BOOLEAN
         },
         paid_at: {
-            allowNull: false,
             type: Sequelize.DATE
         },
         is_delivered: {
             type: Sequelize.BOOLEAN
+        },
+        delivered_at: {
+            type: Sequelize.DATE
         },
         createdAt: {
             allowNull: false,

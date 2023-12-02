@@ -27,6 +27,12 @@ module.exports = {
             onUpdate: 'CASCADE',
             onDelete: 'CASCADE', 
         },
+        product_name: {
+            type: Sequelize.STRING
+        },
+        image: {
+            type: Sequelize.TEXT
+        },
         quantity: {
             type: Sequelize.INTEGER
         },

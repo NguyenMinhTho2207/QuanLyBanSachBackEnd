@@ -56,7 +56,7 @@ const authUserMiddleWare = (req, res, next) => {
             if (err) {
                 return res.status(404).json({
                     status: "ERROR",
-                    message: "The authentication",
+                    message: "The authentication 1",
                 });
             }
 
@@ -66,7 +66,7 @@ const authUserMiddleWare = (req, res, next) => {
             else {
                 return res.status(404).json({
                     status: "ERROR",
-                    message: "The authentication",
+                    message: "The authentication 2",
                 });
             }
     
