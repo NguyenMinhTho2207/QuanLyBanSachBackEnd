@@ -11,6 +11,7 @@ let createOrder = async (req, res) => {
         }
         
         let response = await OrderService.createOrder(req.body);
+
         return res.status(200).json(response);
 
     } catch (error) {
@@ -31,6 +32,7 @@ let createOrderDetails = async (req, res) => {
         }
         
         let response = await OrderService.createOrderDetails(req.body);
+
         return res.status(200).json(response);
 
     } catch (error) {

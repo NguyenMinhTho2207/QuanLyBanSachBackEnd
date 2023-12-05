@@ -24,8 +24,8 @@ let createProduct = (newProduct) => {
             
             let product = await db.Product.create({
                 product_name: newProduct.product_name,
-                category_id: newProduct.product_category_id,
-                category_name: newProduct.product_category_name,
+                product_category_id: newProduct.product_category_id,
+                product_category_name: newProduct.product_category_name,
                 description: newProduct.description,
                 price: isNaN(price) ? 0 : price, 
                 quantity: isNaN(quantity) ? 0 : quantity,
