@@ -125,7 +125,7 @@ let getDetailsProduct = (productId) => {
     });
 }
 
-let getAllProduct = (limit = 8, page = 1, sort, filter) => {
+let getAllProduct = (limit = 20, page = 1, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
             let totalProduct = await db.Product.count();

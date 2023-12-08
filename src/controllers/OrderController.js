@@ -63,15 +63,15 @@ let getAllOrderByOrderId = async (req, res) => {
 
 let getAllOrder = async (req, res) => {
     try {
-        let userId = req.params.id;
-        if (!userId) {
-            return res.status(200).json({
-                status: "ERROR",
-                message: "The userId is require"
-            });
-        }
+        // let userId = req.params.id;
+        // if (!userId) {
+        //     return res.status(200).json({
+        //         status: "ERROR",
+        //         message: "The userId is require"
+        //     });
+        // }
 
-        let response = await OrderService.getAllOrder(userId);
+        let response = await OrderService.getAllOrder();
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({

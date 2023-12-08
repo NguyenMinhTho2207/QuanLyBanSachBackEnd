@@ -145,49 +145,46 @@ let getAllOrderByOrderId = (userId) => {
     });
 }
 
-let getAllOrder = (userId) => {
+let getAllOrder = () => {
     return new Promise(async (resolve, reject) => {
         try {
-            // // Lấy danh sách đơn hàng (orders) của người dùng
-            // let orders = await db.Order.findAll({
-            //     where: {
-            //         user_id: userId
-            //     },
-            //     raw: true
-            // });
+            // Lấy tất cả đơn hàng (orders) không có điều kiện
+            let orders = await db.Order.findAll({
+                raw: true
+            });
 
-            // // Kiểm tra xem có đơn hàng nào không
-            // if (orders.length > 0) {
-            //     // Duyệt qua từng đơn hàng và lấy chi tiết đơn hàng cho mỗi đơn hàng
-            //     for (let i = 0; i < orders.length; i++) {
-            //         let orderId = orders[i].id;
+            // Kiểm tra xem có đơn hàng nào không
+            if (orders.length > 0) {
+                // Duyệt qua từng đơn hàng và lấy chi tiết đơn hàng cho mỗi đơn hàng
+                for (let i = 0; i < orders.length; i++) {
+                    let orderId = orders[i].id;
 
-            //         // Lấy danh sách chi tiết đơn hàng (order details) cho đơn hàng cụ thể
-            //         let orderDetails = await db.OrderDetail.findAll({
-            //             where: {
-            //                 order_id: orderId
-            //             },
-            //             raw: true
-            //         });
+                    // Lấy danh sách chi tiết đơn hàng (order details) cho đơn hàng cụ thể
+                    let orderDetails = await db.OrderDetail.findAll({
+                        where: {
+                            order_id: orderId
+                        },
+                        raw: true
+                    });
 
-            //         // Thêm thông tin chi tiết đơn hàng vào thuộc tính 'orderDetails'
-            //         orders[i].orderDetails = orderDetails;
-            //     }
+                    // Thêm thông tin chi tiết đơn hàng vào thuộc tính 'orderDetails'
+                    orders[i].orderDetails = orderDetails;
+                }
 
-            //     // Trả về kết quả thành công với danh sách đơn hàng và chi tiết đơn hàng
-            //     resolve({
-            //         status: "OK",
-            //         message: "Success",
-            //         data: orders
-            //     });
-            // } else {
-            //     // Không có đơn hàng nào cho người dùng
-            //     resolve({
-            //         status: "OK",
-            //         message: "No orders found for the user",
-            //         data: []
-            //     });
-            // }
+                // Trả về kết quả thành công với danh sách đơn hàng và chi tiết đơn hàng
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: orders
+                });
+            } else {
+                // Không có đơn hàng nào
+                resolve({
+                    status: "OK",
+                    message: "No orders found",
+                    data: []
+                });
+            }
 
         } catch (error) {
             reject(error);
