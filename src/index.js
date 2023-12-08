@@ -24,7 +24,7 @@ let port = process.env.PORT || 6969;
 
 routes(app);
 
-
+console.log("process.env.CLIENT_ID: ", process.env.CLIENT_ID)
 app.listen(port, () => {
     console.log("Server is running in port " + port);
 });

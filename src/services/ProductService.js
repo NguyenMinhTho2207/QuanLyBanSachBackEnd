@@ -32,6 +32,7 @@ let createProduct = (newProduct) => {
                 image: newProduct.image,
                 rating: isNaN(rating) ? 0 : rating,
                 discount: isNaN(discount) ? 0 : discount,
+                sold_quantity: 0
             });
 
             if (product) {
