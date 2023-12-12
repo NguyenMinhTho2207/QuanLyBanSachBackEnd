@@ -15,12 +15,12 @@ module.exports = (sequelize, DataTypes) => {
     }
     Course.init({
         course_name: DataTypes.STRING,
-        course_type: DataTypes.STRING,
+        image: DataTypes.TEXT,
         schedule: DataTypes.INTEGER,
         description: DataTypes.TEXT,
         student_count: DataTypes.INTEGER,
         teacher: DataTypes.STRING,
-        user_id: DataTypes.INTEGER
+        price: DataTypes.DECIMAL,
     }, {
         sequelize,
         modelName: 'Course',

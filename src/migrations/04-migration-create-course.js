@@ -12,8 +12,8 @@ module.exports = {
         course_name: {
             type: Sequelize.STRING
         },
-        course_type: {
-            type: Sequelize.STRING
+        image: {
+            type: Sequelize.TEXT
         },
         schedule: {
             type: Sequelize.INTEGER
@@ -27,14 +27,8 @@ module.exports = {
         teacher: {
             type: Sequelize.STRING
         },
-        user_id: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'Users',
-                key: 'id',
-            },
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE', 
+        price: {
+            type: Sequelize.DECIMAL(10,2)
         },
         createdAt: {
             allowNull: false,

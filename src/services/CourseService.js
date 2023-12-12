@@ -16,8 +16,16 @@ let createCourse = (newCourse) => {
                 });
             }
 
+            let price = parseFloat(newCourse.price);
+
             let course = await db.Course.create({
-                course_name: newCourse.course_name
+                course_name: newCourse.course_name,
+                image: newCourse.image,
+                schedule: null,
+                description: newCourse.description,
+                student_count: 0,
+                teacher: newCourse.teacher,
+                price: isNaN(price) ? 0 : price
             });
 
             if (course) {
@@ -110,15 +118,66 @@ let getDetailsCourse = (courseId) => {
     });
 }
 
-let getAllCourse = () => {
+let getAllCourse = (limit = 20, page = 1, sort, filter) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let allCourse = await db.Course.findAll();
+            let totalCourse = await db.Course.count();
+            let offset = (page - 1) * limit;
+
+            if (filter) {
+                let whereClause = {
+                    [filter[0]]: {
+                        [Op.like]: `%${filter[1]}%`
+                    }
+                };
+                
+                let allCourseFilter = await db.Course.findAll({
+                    where: whereClause,
+                    limit: limit,
+                    offset: offset,
+                    
+                });
+
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: allCourseFilter,
+                    total: totalCourse,
+                    pageCurrent: page,
+                    totalPage: Math.ceil(totalCourse / limit)
+                });
+            }
+            
+            
+            if (sort) {
+                let allCourseSort = await db.Course.findAll({
+                    limit: limit,
+                    offset: offset,
+                    order: [[sort[0], sort[1] === 'asc' ? 'ASC' : 'DESC']]
+                });
+
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: allCourseSort,
+                    total: totalCourse,
+                    pageCurrent: page,
+                    totalPage: Math.ceil(totalCourse / limit)
+                });
+            }
+
+            let allCourse = await db.Course.findAll({
+                limit: limit,
+                offset: offset
+            });
 
             resolve({
                 status: "OK",
                 message: "Success",
-                data: allCourse
+                data: allCourse,
+                total: totalCourse,
+                pageCurrent: page,
+                totalPage: Math.ceil(totalCourse / limit)
             });
         } catch (error) {
             reject(error);
@@ -145,7 +204,7 @@ let deleteCourse = (courseId) => {
 
                 resolve({
                     status: "OK",
-                    message: "Delete course success",
+                    message: "Delete courses success",
                 });
             }
             else {

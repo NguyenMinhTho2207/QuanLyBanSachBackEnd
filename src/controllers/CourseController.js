@@ -62,7 +62,8 @@ let getDetailsCourse = async (req, res) => {
 
 let getAllCourse = async (req, res) => {
     try {
-        let response = await CourseService.getAllCourse();
+        let { limit, page, sort, filter } = req.query;
+        let response = await CourseService.getAllCourse(Number(limit) || 20, Number(page) || 1, sort, filter);
         return res.status(200).json(response);
     } catch (error) {
         return res.status(404).json({
