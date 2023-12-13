@@ -110,6 +110,77 @@ let deleteMultipleCourses = async (req, res) => {
     }
 }
 
+let registerCourse = async (req, res) => {
+    try {
+        let { course_name } = req.body;
+
+        if (!course_name) {
+            return res.status(200).json({
+                status: "ERROR",
+                message: "The input is required"
+            });
+        }
+        
+        let response = await CourseService.registerCourse(req.body);
+        return res.status(200).json(response);
+
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
+let getRegisterCourseByUserId = async (req, res) => {
+    try {
+        const {userId, courseId} = req.body;
+
+        if (!userId && !courseId) {
+            return res.status(200).json({
+                status: "ERROR",
+                message: "The userId or courseId is require"
+            });
+        }
+
+        let response = await CourseService.getRegisterCourseByUserId(userId, courseId);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
+let cancelRegisterCourseByUserId = async (req, res) => {
+    try {
+        const {userId, courseId} = req.body;
+        console.log(req.body)
+        if (!userId && !courseId) {
+            return res.status(200).json({
+                status: "ERROR",
+                message: "The userId or courseId is require"
+            });
+        }
+
+        let response = await CourseService.cancelRegisterCourseByUserId(userId, courseId);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
+
+let getAllRegisterCourseByUserId = async (req, res) => {
+    try {
+        let response = await CourseService.getAllRegisterCourseByUserId();
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(404).json({
+            message: error
+        })
+    }
+}
 
 module.exports = {
     createCourse,
@@ -117,5 +188,9 @@ module.exports = {
     getDetailsCourse,
     getAllCourse,
     deleteCourse,
-    deleteMultipleCourses
+    deleteMultipleCourses,
+    registerCourse,
+    getRegisterCourseByUserId,
+    cancelRegisterCourseByUserId,
+    getAllRegisterCourseByUserId
 }

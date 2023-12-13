@@ -2,7 +2,6 @@ import db from "../models/index"
 
 let createOrder = (newOrder) => {
     return new Promise(async (resolve, reject) => {
-        console.log("newOrder: ", newOrder)
         try {
             let order = await db.Order.create(newOrder);
 

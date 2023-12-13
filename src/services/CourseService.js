@@ -17,11 +17,12 @@ let createCourse = (newCourse) => {
             }
 
             let price = parseFloat(newCourse.price);
+            let schedule = parseFloat(newCourse.schedule);
 
             let course = await db.Course.create({
                 course_name: newCourse.course_name,
                 image: newCourse.image,
-                schedule: null,
+                schedule: isNaN(schedule) ? 0 : schedule,
                 description: newCourse.description,
                 student_count: 0,
                 teacher: newCourse.teacher,
@@ -262,11 +263,132 @@ let deleteMultipleCourses = (courseIds) => {
     });
 }
 
+let registerCourse = (newRegisterCourse) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let registerCourse = await db.CourseRegistration.create({
+                user_id: newRegisterCourse.user_id,
+                user_name: newRegisterCourse.user_name,
+                address: newRegisterCourse.address,
+                avatar: newRegisterCourse.avatar,
+                phone_number: newRegisterCourse.address,
+                course_id: newRegisterCourse.course_id,
+                course_name: newRegisterCourse.course_name
+            });
+
+            if (registerCourse) {
+                // Cập nhật trường student_count của khóa học
+                await db.Course.update(
+                    { student_count: db.Sequelize.literal('student_count + 1') },
+                    { where: { id: newRegisterCourse.course_id } }
+                );
+
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: registerCourse
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+let getRegisterCourseByUserId = (userId, courseId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const course = await db.CourseRegistration.findOne({
+                where: {
+                    user_id: userId,
+                    course_id: courseId
+                },
+                raw: true
+            });
+        
+            if (course) {
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: course
+                });
+            } 
+            else {
+                // Trả kết quả khi không tìm thấy
+                resolve({
+                    status: "NOTFOUND",
+                    message: "Course not found",
+                    data: []
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+let cancelRegisterCourseByUserId = (userId, courseId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Xóa đăng ký khóa học của user theo userId và courseId
+            const deletedRegistration = await db.CourseRegistration.destroy({
+                where: {
+                    user_id: userId,
+                    course_id: courseId
+                }
+            });
+
+            if (deletedRegistration > 0) {
+                // Nếu có record bị xóa, cập nhật trường student_count - 1 theo courseId
+                await db.Course.update(
+                    { student_count: db.Sequelize.literal('student_count - 1') },
+                    { where: { id: courseId } }
+                );
+
+                resolve({
+                    status: "OK",
+                    message: "Success",
+                    data: deletedRegistration
+                });
+            } else {
+                resolve({
+                    status: "Not Found",
+                    message: "Record not found for deletion",
+                    data: null
+                });
+            }
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
+let getAllRegisterCourseByUserId = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Lấy tất cả các bản ghi từ bảng CourseRegistration
+            let courseRegistration = await db.CourseRegistration.findAll();
+
+            resolve({
+                status: "OK",
+                message: "Success",
+                data: courseRegistration
+            });
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
+
 module.exports = {
     createCourse,
     updateCourse,
     getDetailsCourse,
     getAllCourse,
     deleteCourse,
-    deleteMultipleCourses
+    deleteMultipleCourses,
+    registerCourse,
+    getRegisterCourseByUserId,
+    cancelRegisterCourseByUserId,
+    getAllRegisterCourseByUserId
 }
